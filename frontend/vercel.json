@@ -20,6 +20,6 @@
     }
   ],
   "env": {
-    "VITE_API_URL": "https://your-backend-url.onrender.com"
+    "VITE_API_URL": "https://miniproject-1-md3h.onrender.com"
   }
 }
