@@ -29,23 +29,7 @@ app = FastAPI(
 # Allow requests from local development and common deployment platforms
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        # Local development
-        "http://localhost:3000",
-        "http://localhost:5173",
-        "http://127.0.0.1:3000",
-        "http://127.0.0.1:5173",
-        # Render deployment
-        "https://*.onrender.com",
-        # Vercel deployment
-        "https://*.vercel.app",
-        # Railway deployment
-        "https://*.railway.app",
-        # Netlify deployment
-        "https://*.netlify.app",
-        # Custom domains (update with your actual domain)
-        # "https://your-domain.com",
-    ],
+    allow_origins=["*"],  # Allow all origins (or specify your Vercel URL)
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
