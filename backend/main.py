@@ -33,6 +33,7 @@ app.add_middleware(
         "http://localhost:3000",
         "http://localhost:5173",
         "https://miniproject-biahc05cq-jayasimhareddy872-8873s-projects.vercel.app",
+        "https://miniproject-gold-beta.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
