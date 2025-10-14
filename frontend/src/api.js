@@ -35,4 +35,37 @@ export const getPortfolioSignal = async (symbol, type = 'balanced') => {
   return response.data;
 };
 
+export const analyzeQuery = async (query, portfolioType = 'balanced', budget = null) => {
+  const params = { 
+    query,
+    portfolio_type: portfolioType 
+  };
+  
+  if (budget && budget > 0) {
+    params.budget = budget;
+  }
+  
+  const response = await api.get('/analyze', { params });
+  return response.data;
+};
+
+export const analyzeQueryGemini = async (query, portfolioType = 'balanced', budget = null) => {
+  const params = { 
+    query,
+    portfolio_type: portfolioType 
+  };
+  
+  if (budget && budget > 0) {
+    params.budget = budget;
+  }
+  
+  const response = await api.get('/analyze-gemini', { params });
+  return response.data;
+};
+
+export const getTopStocks = async (limit = 10, region = 'US') => {
+  const response = await api.get('/top-stocks', { params: { limit, region } });
+  return response.data;
+};
+
 export default api;
