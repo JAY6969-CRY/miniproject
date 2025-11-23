@@ -4,6 +4,7 @@ import SearchBar from '../components/SearchBar';
 import AnalysisCard from '../components/AnalysisCard';
 import HiddenGemsCard from '../components/HiddenGemsCard';
 
+// Hidden Gems Feature - Long-Term Investment Stock Screener
 function LongTermPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
