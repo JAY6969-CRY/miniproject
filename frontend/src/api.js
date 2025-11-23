@@ -68,4 +68,9 @@ export const getTopStocks = async (limit = 10, region = 'US') => {
   return response.data;
 };
 
+export const getHiddenGems = async () => {
+  const response = await api.get('/screener/hidden-gems');
+  return response.data;
+};
+
 export default api;

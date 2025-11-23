@@ -10,6 +10,7 @@ from predictor import Predictor
 from nlp_parser import NLPParser
 from advisor import StockAdvisor
 from top_stocks import TopStocksRecommender
+from stock_screener import StockScreener
 
 # Try to import Gemini parser, fall back to NLP parser if not available
 try:
@@ -47,6 +48,7 @@ predictor = Predictor()
 nlp_parser = NLPParser()
 advisor = StockAdvisor()
 top_stocks = TopStocksRecommender()
+stock_screener = StockScreener()
 
 # Initialize Gemini parser if available
 gemini_parser = None
@@ -381,6 +383,18 @@ async def analyze_query_gemini(
         
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/screener/hidden-gems")
+async def get_hidden_gems():
+    """
+    Get hidden gems - high-quality stocks with strong fundamentals at attractive valuations
+    Perfect for long-term investment opportunities
+    """
+    try:
+        result = stock_screener.get_hidden_gems()
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to screen stocks: {str(e)}")
 
 @app.get("/health")
 async def health_check():

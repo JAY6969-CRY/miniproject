@@ -1,13 +1,39 @@
-import React, { useState } from 'react';
-import { analyzeQueryGemini, analyzeQuery } from '../api';
+import React, { useState, useEffect } from 'react';
+import { analyzeQueryGemini, analyzeQuery, getHiddenGems } from '../api';
 import SearchBar from '../components/SearchBar';
 import AnalysisCard from '../components/AnalysisCard';
+import HiddenGemsCard from '../components/HiddenGemsCard';
 
 function LongTermPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [analysisData, setAnalysisData] = useState(null);
   const [symbol, setSymbol] = useState('');
+  const [hiddenGemsData, setHiddenGemsData] = useState(null);
+  const [hiddenGemsLoading, setHiddenGemsLoading] = useState(false);
+  const [showHiddenGems, setShowHiddenGems] = useState(true);
+
+  useEffect(() => {
+    // Fetch hidden gems on component mount
+    const fetchHiddenGems = async () => {
+      setHiddenGemsLoading(true);
+      try {
+        const data = await getHiddenGems();
+        setHiddenGemsData(data);
+      } catch (err) {
+        console.error('Failed to fetch hidden gems:', err);
+      } finally {
+        setHiddenGemsLoading(false);
+      }
+    };
+    
+    fetchHiddenGems();
+  }, []);
+
+  const handleAnalyzeStock = (stockName) => {
+    // Trigger search for the selected stock
+    handleSearch(`Is ${stockName} good for long term investment?`);
+  };
 
   const handleSearch = async (searchQuery, budget = null) => {
     if (!searchQuery.trim()) {
@@ -96,6 +122,20 @@ function LongTermPage() {
         <div className="mb-8">
           <SearchBar onSearch={handleSearch} loading={loading} />
         </div>
+
+        {/* Hidden Gems Section */}
+        {!symbol && !loading && showHiddenGems && (
+          <div className="mb-8">
+            {hiddenGemsLoading ? (
+              <div className="bg-white rounded-xl shadow-lg p-8 text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-green-600 mx-auto mb-4"></div>
+                <p className="text-gray-600">Loading investment opportunities...</p>
+              </div>
+            ) : hiddenGemsData ? (
+              <HiddenGemsCard data={hiddenGemsData} onAnalyzeStock={handleAnalyzeStock} />
+            ) : null}
+          </div>
+        )}
 
         {/* Strategy Description */}
         {!symbol && !loading && (
